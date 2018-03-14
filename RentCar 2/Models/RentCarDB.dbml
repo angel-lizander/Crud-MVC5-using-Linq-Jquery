@@ -1,0 +1,50 @@
+﻿<?xml version="1.0" encoding="utf-8"?><Database Name="RentCar" Class="RentCarDBDataContext" xmlns="http://schemas.microsoft.com/linqtosql/dbml/2007">
+  <Connection Mode="WebSettings" ConnectionString="Data Source=DESKTOP-OLVGHAJ\SQLEXPRESS;Initial Catalog=RentCar;Integrated Security=True" SettingsObjectName="System.Configuration.ConfigurationManager.ConnectionStrings" SettingsPropertyName="RentCarConnectionString" Provider="System.Data.SqlClient" />
+  <Table Name="dbo.Carro" Member="Carros">
+    <Type Name="Carro">
+      <Column Name="IDCarro" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="Matricula" Type="System.Int64" DbType="BigInt" CanBeNull="true" />
+      <Column Name="ModeloID" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="Color" Type="System.String" DbType="VarChar(20)" CanBeNull="true" />
+      <Association Name="Carro_Renta" Member="Rentas" ThisKey="IDCarro" OtherKey="IDCarro" Type="Renta" />
+      <Association Name="Modelo_Carro" Member="Modelo" ThisKey="ModeloID" OtherKey="IDModelo" Type="Modelo" IsForeignKey="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.Modelo" Member="Modelos">
+    <Type Name="Modelo">
+      <Column Name="IDModelo" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="Año" Type="System.String" DbType="Char(4)" CanBeNull="true" />
+      <Column Name="NombreModelo" Type="System.String" DbType="VarChar(40)" CanBeNull="true" />
+      <Association Name="Modelo_Carro" Member="Carros" ThisKey="IDModelo" OtherKey="ModeloID" Type="Carro" />
+    </Type>
+  </Table>
+  <Table Name="dbo.Renta" Member="Rentas">
+    <Type Name="Renta">
+      <Column Name="IDRenta" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="Fecha" Type="System.DateTime" DbType="Date" CanBeNull="true" />
+      <Column Name="IDVendedor" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="IDRentador" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="IDCarro" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Association Name="Carro_Renta" Member="Carro" ThisKey="IDCarro" OtherKey="IDCarro" Type="Carro" IsForeignKey="true" />
+      <Association Name="Rentador_Renta" Member="Rentador" ThisKey="IDRentador" OtherKey="RentadorID" Type="Rentador" IsForeignKey="true" />
+      <Association Name="Vendedor_Renta" Member="Vendedor" ThisKey="IDVendedor" OtherKey="IDVendedor" Type="Vendedor" IsForeignKey="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.Rentador" Member="Rentadors">
+    <Type Name="Rentador">
+      <Column Name="RentadorID" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="Nombres" Type="System.String" DbType="VarChar(40)" CanBeNull="true" />
+      <Column Name="Apellidos" Type="System.String" DbType="VarChar(50)" CanBeNull="true" />
+      <Column Name="Cedula" Type="System.String" DbType="Char(11)" CanBeNull="true" />
+      <Association Name="Rentador_Renta" Member="Rentas" ThisKey="RentadorID" OtherKey="IDRentador" Type="Renta" />
+    </Type>
+  </Table>
+  <Table Name="dbo.Vendedor" Member="Vendedors">
+    <Type Name="Vendedor">
+      <Column Name="IDVendedor" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="Nombre" Type="System.String" DbType="VarChar(40)" CanBeNull="true" />
+      <Column Name="Apellido" Type="System.String" DbType="VarChar(40)" CanBeNull="true" />
+      <Association Name="Vendedor_Renta" Member="Rentas" ThisKey="IDVendedor" OtherKey="IDVendedor" Type="Renta" />
+    </Type>
+  </Table>
+</Database>
